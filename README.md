@@ -1,2 +1,4 @@
 # MyLibrary
- Es un recopilado de los algoritmos para competencias de programación que aprendí en la facultad o resolviendo ejercicios en Codeforces
+ Es un recopilado de los algoritmos para competencias de programación que aprendí en la facultad o resolviendo ejercicios en Codeforces. La mayoría de ellos fueron codeados desde cero y testeados por mí en octubre/noviembre 2023.
+
+ Además hay unos archivos de Python que sirven para agregar nuevas funciones a la librería y para generar unos objetos JSON que se pueden incorporar en forma de Snippet en vscode. De esta manera al agregar una función a la librería uno selecciona un alias y mientras codeas en vscode si escribís el alias seleccionado te pega la función de la librería que corresponde. Esto último es especialmente útil para competencias de programación donde uno debe entregar archivos únicos que contengan todo el código necesario para resolver el ejercicio. 
