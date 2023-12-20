@@ -1,4 +1,5 @@
 # MyLibrary
- Es un recopilado de los algoritmos para competencias de programación que aprendí en la facultad o resolviendo ejercicios en Codeforces. La mayoría de ellos fueron codeados desde cero y testeados por mí en octubre/noviembre 2023.
 
- Además hay unos archivos de Python que sirven para agregar nuevas funciones a la librería y para generar unos objetos JSON que se pueden incorporar en forma de Snippet en vscode. De esta manera al agregar una función a la librería uno selecciona un alias y mientras codeas en vscode si escribís el alias seleccionado te pega la función de la librería que corresponde. Esto último es especialmente útil para competencias de programación donde uno debe entregar archivos únicos que contengan todo el código necesario para resolver el ejercicio. 
+It is a compilation of algorithms for programming competitions that I learned in college or practicing on Codeforces. Most of them were coded from scratch and tested by me in October/November 2023.
+
+There are also Python files to add new functions to the library and to generate JSON objects that can be incorporated as Snippets in VSCode. This way, when adding a function to the library, you select an alias. While coding in VSCode, if you type the selected alias, it pastes the corresponding function from the library. This last feature is especially useful for programming competitions where you need to submit single files containing all the necessary code to solve the exercise.
