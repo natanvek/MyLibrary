@@ -49,6 +49,8 @@ def parser(path):
     block += f'\t\t"description": "{edit(description)}",\n'
     block += f'\t\t"body": [\n{body}\t\t]\n'
     block += f'\t}},\n'
+    if(edit(name) == "") :
+        popo = 45
     return block
     
 def edit(str):

@@ -24,6 +24,7 @@ struct SumNode {
     bool lazyDesactualizado = false;
 
     void leaf(TYPE val) {
+        // dado v vector original del segtree si v[i] = val que queres guardar en la leaf i
         sum = val;
     }
 
@@ -32,8 +33,8 @@ struct SumNode {
     }
 
     void push() {
-        // esta funcion hay que modificar la condicion y lo que se pushea 
-        ret(!lazyDesactualizado,,);
+        // puede ser necesario modificar la condicion y como se stackLazy
+        if(!lazyDesactualizado) return;
 
         // aviso a mis hijos
         if (l != r) {

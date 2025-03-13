@@ -27,25 +27,27 @@ struct SegmentTree {
     using TYPE = typename Node::TYPE;
 
     int n; 
-    vector<TYPE> a;
 
-    SegmentTree(const vector<TYPE> &_a) : n(_a.size()), a(_a) {
+    SegmentTree(const vector<TYPE> &a) : n(a.size()) {
+        if(_a.empty()) return;
         int SIZE = 1 << (__lg(n) + bool(__builtin_popcount(n) - 1));
         auxiliar.reserve(2 * SIZE);
-        build(root, 0, n-1);
+        build(root, 0, n-1, a);
     }
 
-    void build(Node& ran, int l, int r) {
+    void build(Node& ran, int l, int r, const vector<TYPE> &a) {
         ran.l = l; 
         ran.r = r;
-        ret(l == r, ran.leaf(a[l]));
+        if(l == r) {
+            return ran.leaf(a[l]);
+        }
 
         auxiliar.pb(Node()); Node& izq = auxiliar.back();
         auxiliar.pb(Node()); Node& der = auxiliar.back();
 
         int m = (l + r) / 2;
-        build(izq, l, m);
-        build(der, m+1, r);
+        build(izq, l, m, a);
+        build(der, m+1, r, a);
         
         ran.leftChild = &izq;
         ran.rightChild = &der;
@@ -76,12 +78,13 @@ struct SegmentTree {
         ran.merge();
     }
 
-    void update(int i, int j, TYPE val) {
+    void update(int i, int j, TYPE val) { // esto reemplaza todos los valores de una zona por val
         assert(0 <= i && i <= j && j < n);
         update(root, i, j, val);
     }
 
     void set(int i, TYPE val) { // aca no hay que cambiar nada creo [i, j] el update
+        assert(0 <= i && i < n);
         update(i, i, val);
     }
 
@@ -114,6 +117,7 @@ struct SegmentTree {
     }
 
     Node get(int i) { // [i, j]
+        assert(0 <= i && i < n);
         return query(i, i);
     }
 };

@@ -15,48 +15,71 @@
 
 //----------------------------------------------------------------
 //  body:
-struct arista {
-    ll v, t, c;
-    bool operator<(const arista& b) const {
-        return tie(t, c) < tie(b.t, b.c);
+struct Peso {
+    ll t;
+    bool operator<(const Peso& b) const {
+        return tie(t) < tie(b.t);
     }
 
-    arista operator+(const arista& b) {
-        return {v, t + b.t, c + b.c};
-    }
-};
-
-struct compArista {
-    bool operator()(const arista& a, const arista& b) const {
-        return b < a;  // This makes it a min-heap.
+    Peso operator+(const Peso& b) {
+        return {t + b.t};
     }
 };
 
-arista minima = {-1, 0, 0}, maxima = {-1, INT64_MAX, INT64_MAX};
-
-vector<arista> dijkstra(vector<vector<arista>>& grafo, ll v) {
+vector<Peso> dijkstra_mlogm(vector<vector<pair<int, Peso>>>& grafo, ll v) {
     ll n = grafo.size();
-    priority_queue<arista, vector<arista>, compArista> heap;
-    vector<arista> dist(n, maxima);
-    dist[v] = minima;
-    dist[v].v = v;
-    heap.push(dist[v]);
+    ll m = 0;
+    forn(i, 0, n) m += grafo[i].size();
+
+    if (n * n < m * log(m)) {
+        return dijkstran2(grafo, v);
+    } else {
+        return dijkstra_mlogm(grafo, v);
+    }
+}
+vector<Peso> dijkstra_mlogm(vector<vector<pair<int, Peso>>>& grafo, ll v) {
+    ll n = grafo.size();
+
+    vector<Peso> dist(n, {infll});
+    dist[v] = {0};
+
+    auto compPeso = [&dist](int a, int b) { return dist[b] < dist[a]; };
+    priority_queue<int, vi, decltype(compPeso)> heap(compPeso);
+
+    heap.push(v);
     vector<bool> esta(n, false);
 
     while (!heap.empty()) {
-        ll w = heap.top().v; heap.pop();
+        int w = heap.top();
+        heap.pop();
         if (esta[w]) continue;
         esta[w] = true;
-        for (arista& u : grafo[w]) {
-            // ojo que la suma no es conmutativa
-            arista k = (u + dist[w]); 
-            if (k < dist[k.v]) {
-                dist[k.v] = k;
-                heap.push(k);
-            }
-        }
+        for (auto& [u, p] : grafo[w])
+            if (mineq(dist[u], p + dist[w]))
+                heap.push(u);
     }
 
     return dist;
 }
 
+vector<Peso> dijkstran2(vector<vector<pair<int, Peso>>>& grafo, ll v) { // falta testear
+    ll n = grafo.size();
+
+    vector<Peso> dist(n, {infll});
+    dist[v] = {0};
+    vector<bool> esta(n, false);
+
+    forn (_, 0, n) {
+        Peso peor = {infll};
+        int w;
+        forn(i, 0, n) 
+            if(!esta[i] && mineq(peor, dist[i])) w = i;
+
+        esta[w] = true;
+
+        for (auto& [u, p] : grafo[w])
+            mineq(dist[u], p + dist[w]);        
+    }
+
+    return dist;
+}

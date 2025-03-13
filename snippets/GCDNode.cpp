@@ -1,49 +1,48 @@
 #include "/home/natanvek/0-COMPUTER/0-PROGRAMACION/8-COMPETENCIA/Template/macros.cpp"
-//--------------------------------------
+//-----------------------------
+
+
 
 /*----------------------------------------------------------------*
-    name: MaxNode
+    name: GCDNode 
 *----------------------------------------------------------------*/
 
 /*----------------------------------------------------------------*
-    prefix: MaxNode 
+    prefix: GCDNode 
 *----------------------------------------------------------------*/
 
 /*----------------------------------------------------------------*
-    description:  
+    description: sirve para calcular gcds con el segtree 
 *----------------------------------------------------------------*/
 
 //----------------------------------------------------------------
 //  body:
+ll gcd(ll a, ll b){
+    if(a==0) return b;
+    return gcd(b%a, a);
+}
+
 
 template <class T>
-struct MaxNode {
+struct GCDNode {
     using TYPE = T;
     int l, r; 
-    MaxNode *leftChild, *rightChild;
-    TYPE lazy = 0, mx = 0;
-    int pos;
+    GCDNode *leftChild, *rightChild;
+    TYPE lazy = 0, g = 0;
     bool lazyDesactualizado = false;
 
     void leaf(TYPE val) {
         // dado v vector original del segtree si v[i] = val que queres guardar en la leaf i
-        mx = val;
-        pos = l;
+        g = val;
     }
 
     void merge() {
-        if(leftChild->mx >= rightChild->mx) {
-            mx = leftChild->mx;
-            pos = leftChild->pos;
-        } else {
-            mx = rightChild->mx;
-            pos = rightChild->pos;
-        }
+        g = gcd(leftChild->g, rightChild->g);
     }
 
-    void push() { // esto solo sirve para el update de a rangos
+    void push() {
         // puede ser necesario modificar la condicion y como se stackLazy
-        if(!lazyDesactualizado) return;
+        if (!lazyDesactualizado) return;
 
         // aviso a mis hijos
         if (l != r) {
@@ -52,9 +51,9 @@ struct MaxNode {
         }
 
         // actualizar mi lazy
-        mx = lazy;
-        pos = l;
+        leaf(lazy);
         lazyDesactualizado = false;
+        
     }
 
     void stackLazy(TYPE val) {

@@ -1,0 +1,23 @@
+/*
+Algorithms for Competitive Programming
+Sprague-Grundy theorem. Nim
+
+Nim es el juego típico donde hay N pilas de piedras y 2 jugadores que se van turnando
+
+Cada jugador agarra una cantidad arbitraria de piedras de una pila
+
+El jugador que no puede agarrar pierde
+
+La joda es que este problema se soluciona haciendo el xor de las pilas
+si da >0 gana el que empieza si da 0 pierde el que empieza
+
+La otra joda es que existe una funcion g(e) recursiva llamemosle e a un estado de juego : 
+g(vacio) = 0
+g(e) = mex{g(e1), .., g(ek)}
+
+Entonces si g(estado) = 0 es perdedora sino es ganadora
+
+Lo interesante es que g te da el numero de grundy entonces podes trasladar un partido cualquiera a un partido de Nim
+
+Entonces si tenemos un juego diferente pero tomamos cada pila de este juego como un juego particular y le calculamos 
+*/

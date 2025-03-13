@@ -26,6 +26,7 @@ struct MinNode {
     bool lazyDesactualizado = false;
 
     void leaf(TYPE val) {
+        // dado v vector original del segtree si v[i] = val que queres guardar en la leaf i
         mn = val;
         pos = l;
     }
@@ -40,19 +41,22 @@ struct MinNode {
         }
     }
 
-    void push() {
-        if (lazyDesactualizado) {
-            if (l != r) {
-                leftChild->stackLazy(lazy);
-                rightChild->stackLazy(lazy);
-            }
+    void push() { // esto solo sirve para el update de a rangos
+        // puede ser necesario modificar la condicion y como se stackLazy
+        if (!lazyDesactualizado) return;
 
-            leaf(lazy);
-            lazyDesactualizado = false;
+        if (l != r) {
+            leftChild->stackLazy(lazy);
+            rightChild->stackLazy(lazy);
         }
+
+        leaf(lazy);
+        lazyDesactualizado = false;
+        
     }
 
     void stackLazy(TYPE val) {
+        // aca hay que tener cuidado esto es lo que efectua el update 
         lazyDesactualizado = true;
         lazy = val;
     }

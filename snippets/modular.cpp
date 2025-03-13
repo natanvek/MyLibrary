@@ -60,19 +60,11 @@ class Modular {
   template <typename U> Modular& operator-=(const U& other) { return *this -= Modular(other); }
   Modular& operator++() { return *this += 1; }
   Modular& operator--() { return *this -= 1; }
-  Modular operator++(int) { Modular result(*this); *this += 1; return result; }
-  Modular operator--(int) { Modular result(*this); *this -= 1; return result; }
   Modular operator-() const { return Modular(-value); }
  
   template <typename U = T>
   typename enable_if<is_same<typename Modular<U>::Type, int>::value, Modular>::type& operator*=(const Modular& rhs) {
     value = normalize(static_cast<int64_t>(value) * static_cast<int64_t>(rhs.value));
-    return *this;
-  }
-  template <typename U = T>
-  typename enable_if<is_same<typename Modular<U>::Type, long long>::value, Modular>::type& operator*=(const Modular& rhs) {
-    long long q = static_cast<long long>(static_cast<long double>(value) * rhs.value / mod());
-    value = normalize(value * rhs.value - q * mod());
     return *this;
   }
   template <typename U = T>
@@ -162,6 +154,20 @@ U& operator>>(U& stream, Modular<T>& number) {
   return stream;
 }
  
+
+// esto sirve si se quiere definir el MOD de forma dinamica
+// struct DynamicMod { 
+//     static int value;
+// };
+
+// int DynamicMod::value = 998244353;
+// // dentro del main
+// // DynamicMod::value = MODdeseado
+// // mint x = 0; esto ya anda con el nuevo mod
+
+// using mint = Modular<DynamicMod>;
+
+
 constexpr int MOD = 998244353;
 using mint = Modular<std::integral_constant<decay<decltype(MOD)>::type, MOD>>;
 
